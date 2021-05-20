@@ -1,12 +1,12 @@
 import sys
-
+import datetime
 THD_COL = 4
 YEAR_COL = 7
 MONTH_COL = 8
+TIME_COL = 0
 
 
-
-def locateFunction(year, month, strike, callPut):
+def locateFunction(year, month, strike, callPut, time_input):
     answer = ""
     thd_Arr = []
     try:
@@ -33,11 +33,12 @@ def locateFunction(year, month, strike, callPut):
         found = False
         for x in thd_Arr:
             cutter = x.split('|')
-            result = x.find("C:3230:")
+            if time_input < cutter[TIME_COL]:
+                continue
             for y in cutter:
-                if y[0:7] == "C:" + strike + ":":
+                found = y.startswith("C:" + strike + ":")
+                if found:
                     answer = y
-                    found = True
                     break
             if found:
                 break
@@ -45,10 +46,12 @@ def locateFunction(year, month, strike, callPut):
         found = False
         for x in thd_Arr:
             split = x.split('|')
+            if time_input < split[TIME_COL]:
+                continue
             for y in split:
-                if y[0:6] == "P:" + strike + ":":
+                found = y.startswith("P:" + strike + ":")
+                if found:
                     answer = y
-                    found = True
                     break
             if found:
                 break
@@ -56,14 +59,16 @@ def locateFunction(year, month, strike, callPut):
     return answer
 
 def main():
-    if len(sys.argv) < 5:
-        print("Usage: ", sys.argv[0], "Year Month Strike Call/Put")
+    if len(sys.argv) < 6:
+        print("Usage: ", sys.argv[0], "Year Month Strike Call/Put Time")
         exit(-1)
     year = sys.argv[1]
     month = sys.argv[2]
     strike = sys.argv[3]
     callPut = sys.argv[4]
-    answer = locateFunction(year, month, strike, callPut)
+    time_input = sys.argv[5]
+    date_time_obj = datetime.datetime.strptime(time_input, '%H:%M:%S')
+    answer = locateFunction(year, month, strike, callPut, time_input)
     print(answer)
 if __name__ == "__main__":
-    main()
+    
