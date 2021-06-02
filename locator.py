@@ -64,26 +64,21 @@ def locateFunction(filename, year, month, strike, callPut, time_input):
     return answer
 
 def format_output(data):
-    disect = data.split(':')
-    print("Kind=" + disect[OUTPUT_KIND_IDX])
-    print("Strike=" + disect[OUTPUT_STK_IDX])
-    print("Value3=" + disect[2])
-    print("Value4=" + disect[3])
-    print("Value5=" + disect[4])
-    print("Value6=" + disect[5])
-    value3 = disect[2]
-    value4 = disect[3]
-    value5 = disect[4]
-    value6 = disect[5]
-    value7 = disect[6]
-    value8 = disect[7]
-    value9 = disect[8]
-    value10 = disect[9]
-    value11 = disect[10]
-    value12 = disect[11]
-    value13 = disect[12]
-    value14 = disect[13]
-
+    arr = data.split(':')
+    print("Kind=" + arr[OUTPUT_KIND_IDX])
+    print("Strike=" + arr[OUTPUT_STK_IDX])
+    print("Value3=" + arr[2])
+    print("Value4=" + arr[3])
+    print("Value5=" + arr[4])
+    print("Value6=" + arr[5])
+    print("Value7=" + arr[6])
+    print("Value8=" + arr[7])
+    print("Value9=" + arr[8])
+    print("Value10=" + arr[9])
+    print("Value11=" + arr[10])
+    print("Value12=" + arr[11])
+    print("Value13=" + arr[12])
+    print("Value14=" + arr[13])
 
 def main():
     if len(sys.argv) < 6:
