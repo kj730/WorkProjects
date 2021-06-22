@@ -9,7 +9,7 @@ OUTPUT_KIND_IDX=0
 OUTPUT_STK_IDX=1
 
 
-
+#finds the value of a strike at a given time
 def locateFunction(filename, year, month, strike, callPut, time_input):
     answer = ""
     thd_Arr = []
@@ -23,6 +23,7 @@ def locateFunction(filename, year, month, strike, callPut, time_input):
         return -1
     for line in general:
         splitter = line.split('|')
+        #check to see if we are using the right line in the file
         if len(splitter) < THD_COL + 1:
             continue
         thdStr = splitter[THD_COL]
@@ -32,16 +33,17 @@ def locateFunction(filename, year, month, strike, callPut, time_input):
         seperate = x.split('|')
         yearStr = seperate[YEAR_COL]
         monthStr = seperate[MONTH_COL]
+    #reverse the array so that we can find the most recent strike
     thd_Arr.reverse()
     if callPut == "C":
         found = False
         for x in thd_Arr:
             cutter = x.split('|')
+            #makes sure that that the time in the file is before the time argument
             if time_input < cutter[TIME_COL]:
                 continue
             for y in cutter:
                 found = y.startswith("C:" + strike + ":")
-
                 if found:
                     answer = y
                     break
@@ -51,6 +53,7 @@ def locateFunction(filename, year, month, strike, callPut, time_input):
         found = False
         for x in thd_Arr:
             split = x.split('|')
+            #makes sure that that the time in the file is before the time argument
             if time_input < split[TIME_COL]:
                 continue
             for y in split:
@@ -62,7 +65,7 @@ def locateFunction(filename, year, month, strike, callPut, time_input):
                 break
     general.close()
     return answer
-
+#formarts the data to see each value in an easier way
 def format_output(data):
     arr = data.split(':')
     print("Kind=" + arr[OUTPUT_KIND_IDX])
@@ -90,6 +93,7 @@ def main():
     strike = sys.argv[4]
     callPut = sys.argv[5]
     time_input = sys.argv[6]
+    #make a time object from the time argument
     date_time_obj = datetime.datetime.strptime(time_input, '%H:%M:%S')
     answer = locateFunction(filename, year, month, strike, callPut, time_input)
     print("Answer is " + answer)
