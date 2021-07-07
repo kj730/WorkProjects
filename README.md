@@ -5,3 +5,5 @@ It loops through each line in the file and updates the number variable for each 
 
 The locator.py source code locates and returns the values associated with a given strike at a given time.
 Once the strike is found in the given file, the output is formatted to show each attribute in the strike
+
+The .idea file contains Pycharm files for the locator.py program
